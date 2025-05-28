@@ -1,0 +1,71 @@
+spring:
+  application:
+    name: pj
+
+  datasource:
+
+# For Production
+    url: jdbc:mysql://mysql.railway.internal:3306/railway
+    username: root
+    password: RoYCxrNLEcmPhpAUONGiinViwDWTNuAo
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+server:
+  port: ${PORT:8089}
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG     # To debug security/auth-related issues
+      hibernate:
+        SQL: DEBUG           # To debug SQL queries and Hibernate behavior
+
+
+
+
+# JWT Settings for Authentication
+jwt:
+  secret: dXoaYH1h2v3fBLOyqv5kqyb5uV9XWgW9XKqFwHrhGfg=  # Shared secret across all services
+  expiration: 3600000                                 # Token expiration time (1 hour)
+
+# Eureka Client Configuration
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: https://donefor.up.railway.app/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  health:
+    circuit-breakers:
+      enabled: true
+  endpoint:
+    health:
+      show-details: always
+
+# Resilience4j Circuit Breaker Settings for Handling Service Failures
+resilience4j:
+  circuitbreaker:
+    instances:
+      commentBreaker:
+        sliding-window-size: 10              # Number of requests in the sliding window
+        failure-rate-threshold: 50           # Percentage failure rate to trip the circuit
+        minimum-number-of-calls: 5           # Minimum calls before calculating failure rate
+        slow-call-rate-threshold: 50         # Percentage of slow calls to trip circuit breaker
+        slow-call-duration-threshold: 2000ms # Maximum duration for considered slow calls
+        permitted-number-of-calls-in-half-open-state: 5
+        wait-duration-in-open-state: 10s     # Open state duration before moving to half-open
+        automatic-transition-from-open-to-half-open-enabled: true
+        register-health-indicator: true      # Enable integration with health indicators
