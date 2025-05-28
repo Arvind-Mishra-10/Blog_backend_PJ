@@ -1,10 +1,11 @@
 spring:
   application:
     name: pj
-
+  cloud:
+    discovery:
+      enabled: true
+  # For Production
   datasource:
-
-# For Production
     url: jdbc:mysql://mysql.railway.internal:3306/railway
     username: root
     password: RoYCxrNLEcmPhpAUONGiinViwDWTNuAo
