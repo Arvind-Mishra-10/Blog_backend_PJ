@@ -20,13 +20,14 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
+        max_fetch_depth: 1   # <--- Added to limit fetch depth
 
 server:
   port: ${PORT:8089}
 
 logging:
   level:
-    root: DEBUG
+    root: INFO
     org:
       springframework:
         security: DEBUG
