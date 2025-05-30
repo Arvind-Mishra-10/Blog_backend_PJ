@@ -7,9 +7,9 @@ spring:
       enabled: true
 
   datasource:
-    url: jdbc:mysql://mysql.railway.internal:3306/railway
-    username: root
-    password: RoYCxrNLEcmPhpAUONGiinViwDWTNuAo
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
   cache:
     type: caffeine
@@ -23,7 +23,7 @@ spring:
         max_fetch_depth: 1
 
 server:
-  port: ${PORT:8080} # ✅ Railway provides PORT env var; default fallback should be 8080
+  port: ${PORT:8089}
 
 logging:
   level:
@@ -35,8 +35,8 @@ logging:
         SQL: DEBUG
 
 jwt:
-  secret: dXoaYH1h2v3fBLOyqv5kqyb5uV9XWgW9XKqFwHrhGfg=
-  expiration: 3600000
+  secret: ${JWT_SECRET:dXoaYH1h2v3fBLOyqv5kqyb5uV9XWgW9XKqFwHrhGfg=}
+  expiration: ${JWT_EXPIRATION:3600000}
 
 eureka:
   client:
@@ -50,23 +50,23 @@ management:
     web:
       exposure:
         include: health
+  health:
+    circuit-breakers:
+      enabled: true
   endpoint:
     health:
       show-details: always
-  health:
-    circuitbreakers:
-      enabled: true # ✅ `circuitbreakers` must match your library (resilience4j-health)
 
 resilience4j:
   circuitbreaker:
     instances:
       commentBreaker:
-        slidingWindowSize: 10
-        failureRateThreshold: 50
-        minimumNumberOfCalls: 5
-        slowCallRateThreshold: 50
-        slowCallDurationThreshold: 2000
-        permittedNumberOfCallsInHalfOpenState: 5
-        waitDurationInOpenState: 10s
-        automaticTransitionFromOpenToHalfOpenEnabled: true
-        registerHealthIndicator: true
+        sliding-window-size: 10
+        failure-rate-threshold: 50
+        minimum-number-of-calls: 5
+        slow-call-rate-threshold: 50
+        slow-call-duration-threshold: 2s
+        permitted-number-of-calls-in-half-open-state: 5
+        wait-duration-in-open-state: 10s
+        automatic-transition-from-open-to-half-open-enabled: true
+        register-health-indicator: true
