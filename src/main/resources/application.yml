@@ -1,14 +1,16 @@
 spring:
   application:
     name: pj
+
   cloud:
     discovery:
       enabled: true
-  # For Production
+
   datasource:
     url: jdbc:mysql://mysql.railway.internal:3306/railway
     username: root
     password: RoYCxrNLEcmPhpAUONGiinViwDWTNuAo
+
   cache:
     type: caffeine
 
@@ -24,21 +26,17 @@ server:
 
 logging:
   level:
+    root: DEBUG
     org:
       springframework:
-        security: DEBUG     # To debug security/auth-related issues
+        security: DEBUG
       hibernate:
-        SQL: DEBUG           # To debug SQL queries and Hibernate behavior
+        SQL: DEBUG
 
-
-
-
-# JWT Settings for Authentication
 jwt:
-  secret: dXoaYH1h2v3fBLOyqv5kqyb5uV9XWgW9XKqFwHrhGfg=  # Shared secret across all services
-  expiration: 3600000                                 # Token expiration time (1 hour)
+  secret: dXoaYH1h2v3fBLOyqv5kqyb5uV9XWgW9XKqFwHrhGfg=
+  expiration: 3600000
 
-# Eureka Client Configuration
 eureka:
   client:
     register-with-eureka: true
@@ -58,17 +56,16 @@ management:
     health:
       show-details: always
 
-# Resilience4j Circuit Breaker Settings for Handling Service Failures
 resilience4j:
   circuitbreaker:
     instances:
       commentBreaker:
-        sliding-window-size: 10              # Number of requests in the sliding window
-        failure-rate-threshold: 50           # Percentage failure rate to trip the circuit
-        minimum-number-of-calls: 5           # Minimum calls before calculating failure rate
-        slow-call-rate-threshold: 50         # Percentage of slow calls to trip circuit breaker
-        slow-call-duration-threshold: 2000ms # Maximum duration for considered slow calls
+        sliding-window-size: 10
+        failure-rate-threshold: 50
+        minimum-number-of-calls: 5
+        slow-call-rate-threshold: 50
+        slow-call-duration-threshold: 2000ms
         permitted-number-of-calls-in-half-open-state: 5
-        wait-duration-in-open-state: 10s     # Open state duration before moving to half-open
+        wait-duration-in-open-state: 10s
         automatic-transition-from-open-to-half-open-enabled: true
-        register-health-indicator: true      # Enable integration with health indicators
+        register-health-indicator: true
