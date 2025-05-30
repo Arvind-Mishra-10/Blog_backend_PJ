@@ -23,7 +23,7 @@ spring:
         max_fetch_depth: 1
 
 server:
-  port: ${PORT:8089}
+  port: ${PORT:8080} # ✅ Railway provides PORT env var; default fallback should be 8080
 
 logging:
   level:
@@ -50,23 +50,23 @@ management:
     web:
       exposure:
         include: health
-  health:
-    circuit-breakers:
-      enabled: true
   endpoint:
     health:
       show-details: always
+  health:
+    circuitbreakers:
+      enabled: true # ✅ `circuitbreakers` must match your library (resilience4j-health)
 
 resilience4j:
   circuitbreaker:
     instances:
       commentBreaker:
-        sliding-window-size: 10
-        failure-rate-threshold: 50
-        minimum-number-of-calls: 5
-        slow-call-rate-threshold: 50
-        slow-call-duration-threshold: 2000ms
-        permitted-number-of-calls-in-half-open-state: 5
-        wait-duration-in-open-state: 10s
-        automatic-transition-from-open-to-half-open-enabled: true
-        register-health-indicator: true
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 5
+        slowCallRateThreshold: 50
+        slowCallDurationThreshold: 2000
+        permittedNumberOfCallsInHalfOpenState: 5
+        waitDurationInOpenState: 10s
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        registerHealthIndicator: true
