@@ -12,11 +12,12 @@ spring:
     password: ${PASSWORD:12345}
     # ✅ Optimization: Reduced HikariCP connection pool size to conserve memory
     hikari:
-      maximum-pool-size: 3            # Max 3 database connections
-      minimum-idle: 1                 # Only 1 connection remains idle
-      idle-timeout: 30000             # Close idle connections after 30 seconds
-      max-lifetime: 30000             # Limit connection lifetime to 30 seconds
-      connection-timeout: 20000       # Timeout for waiting for a connection: 20 seconds
+      minimum-idle: 1           # Minimum number of idle connections
+      maximum-pool-size: 10     # Limit pool size to a reasonable number
+      idle-timeout: 30000       # 30 seconds (must be less than `max-lifetime`)
+      max-lifetime: 60000       # 60 seconds
+      connection-timeout: 20000 # Timeout for waiting for a connection (20 seconds)
+
 
   jpa:
     hibernate:
