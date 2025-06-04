@@ -13,7 +13,7 @@ spring:
     # ✅ Optimization: Reduced HikariCP connection pool size to conserve memory
     hikari:
       minimum-idle: 1           # Minimum number of idle connections
-      maximum-pool-size: 10     # Limit pool size to a reasonable number
+      maximum-pool-size: 5     # Limit pool size to a reasonable number
       idle-timeout: 30000       # 30 seconds (must be less than `max-lifetime`)
       max-lifetime: 60000       # 60 seconds
       connection-timeout: 20000 # Timeout for waiting for a connection (20 seconds)
@@ -34,7 +34,7 @@ server:
   # ✅ Added server-level optimizations for Tomcat
   tomcat:
     threads:
-      max: 50            # Max 50 worker threads to handle requests
+      max: 25            # Max 50 worker threads to handle requests
       min-spare: 5       # Minimum of 5 threads at all times
 
 logging:
@@ -46,6 +46,7 @@ logging:
         security: WARN
       hibernate:
         SQL: INFO
+    org.springframework.boot.web.embedded.tomcat: DEBUG
 
 jwt:
   secret: dXoaYH1h2v3fBLOyqv5kqyb5uV9XWgW9XKqFwHrhGfg=
@@ -56,7 +57,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: ${DEFAULTZONE:http://localhost:8761/eureka/}
+      defaultZone: ${DEFAULT_ZONE:http://localhost:8761/eureka/}
 #https://donefor.up.railway.app/eureka/
 
 # Management config for actuator endpoints
