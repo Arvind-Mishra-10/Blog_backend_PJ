@@ -40,12 +40,12 @@ server:
 logging:
   # ✅ Reduced log verbosity to WARN for better memory efficiency
   level:
-    root: WARN
+    root: DEBUG
     org:
       springframework:
-        security: WARN
+        security: DEBUG
       hibernate:
-        SQL: INFO
+        SQL: DEBUG
     org.springframework.boot.web.embedded.tomcat: DEBUG
 
 jwt:
